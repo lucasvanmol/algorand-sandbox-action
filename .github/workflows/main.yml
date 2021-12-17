@@ -1,7 +1,7 @@
 on: [push]
 
 jobs:
-  hello_world_job:
+  algorand-sandbox-job:
     runs-on: ubuntu-latest
     name: Test sandbox
     steps:
@@ -9,3 +9,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Setup sandbox
         uses: ./ # Uses an action in the root directory
+        continue-on-error: true
+      - name: Test
+        run: |
+          curl localhost:4001/health -H "X-Algo-API-Token: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
