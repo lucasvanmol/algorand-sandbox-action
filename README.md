@@ -11,6 +11,8 @@ This action spins up a private algorand network using the [algorand sandbox](htt
 
 ## Example usage
 
+```
 uses: actions/algorand-sandbox-action@v1
 with:
   config: 'release'
+```
