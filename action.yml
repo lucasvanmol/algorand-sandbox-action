@@ -1,0 +1,12 @@
+name: 'Algorand Sandbox'
+description: 'Setup an Algorand sandbox network'
+inputs:
+  config:
+    description: 'Sandbox config'
+    required: false
+    default: 'release'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.config }}
