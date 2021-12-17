@@ -6,7 +6,7 @@ This action spins up a private algorand network using the [algorand sandbox](htt
 
 ### `config`
 
-**Optional**: Config to use with `sandbox up $CONFIG`. One of `release`, `beta`, `dev` or `nightly` (default `"release"`).
+**Optional** Config to use with `sandbox up $CONFIG`. One of `release`, `beta`, `dev` or `nightly` (default `"release"`).
 
 
 ## Example usage
