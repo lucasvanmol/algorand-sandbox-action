@@ -1,4 +1,4 @@
-#!/bin/sh -l
+#!/usr/bin/env bash
 
 if [[ "$1" =~ ^(release|beta|dev|nightly)$ ]]; then
     git clone https://github.com/algorand/sandbox.git
