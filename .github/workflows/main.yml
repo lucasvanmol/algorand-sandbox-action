@@ -12,7 +12,9 @@ jobs:
         # Ignore the failure of a step and avoid terminating the job.
         continue-on-error: true
       - name: Setup sandbox
+        id: sandbox
         uses: ./ # Uses an action in the root directory
       - name: Test
         run: |
+          echo ${{ steps.sandbox.outputs.mnemonic }}
           curl --fail --show-error localhost:4001/health -H "X-Algo-API-Token: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
