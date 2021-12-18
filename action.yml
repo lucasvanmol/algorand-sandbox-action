@@ -5,6 +5,9 @@ inputs:
     description: 'Sandbox config'
     required: false
     default: 'release'
+outputs:
+  mnemonic:
+    description: 'Mnemonic of an account that has some algos in it'
 runs:
   using: 'docker'
   image: 'Dockerfile'

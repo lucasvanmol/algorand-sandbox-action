@@ -8,6 +8,11 @@ This action spins up a private algorand network using the [algorand sandbox](htt
 
 **Optional** Config to use with `sandbox up $CONFIG`. One of `release`, `beta`, `dev` or `nightly` (default `"release"`).
 
+## Outputs
+
+### `mnemonic`
+
+Mnemonic of an account that has some algos in it, that can be used to fund test transactions.
 
 ## Example usage
 
