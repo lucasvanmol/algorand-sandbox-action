@@ -1,13 +1,14 @@
 on: [push]
 
 env:
-  CONFIG: dev
+  CONFIG: .github/workflows/sandbox/config.customdev
+  GENESIS: .github/workflows/sandbox/genesis/dev/genesis.json
 
 
 jobs:
   algorand-sandbox-job:
     runs-on: ubuntu-latest
-    name: Test sandbox
+    name: Test dev config
     steps:
       - name: Checkout
         uses: actions/checkout@v2       
@@ -15,11 +16,16 @@ jobs:
         uses: satackey/action-docker-layer-caching@v0.0.11
         # Ignore the failure of a step and avoid terminating the job.
         continue-on-error: true
+        with:
+          key: docker-layer-caching-${{ github.workflow }}-${{ hashFiles(env.CONFIG, env.GENESIS) }}-{hash}
+          restore-keys: docker-layer-caching-${{ github.workflow }}-${{ hashFiles(env.CONFIG, env.GENESIS) }}-
       - name: Setup sandbox
         id: sandbox
         uses: ./ # Uses an action in the root directory
         with:
-          config: dev
+          config: ${{ env.CONFIG }}
       - name: Test
         run: |
-          curl --fail --show-error localhost:4001/v2/accounts/S5THZ2PD5POQGXAEAGUBPUM3X5NLJWBBBCVXK7WLSH6DMEEW6UJB45TBNE -H "X-Algo-API-Token: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          curl --fail --show-error -H "X-Algo-API-Token: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" localhost:4001/v2/accounts/S5THZ2PD5POQGXAEAGUBPUM3X5NLJWBBBCVXK7WLSH6DMEEW6UJB45TBNE 
+          curl --fail --show-error -i -X POST -H "X-Algo-API-Token: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" -H "Content-Type:application/x-binary" -T "${{ github.workspace }}/.github/workflows/test.stxn" localhost:4001/v1/transactions
+          curl --fail --show-error -H "X-Algo-API-Token: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" localhost:4001/v2/status

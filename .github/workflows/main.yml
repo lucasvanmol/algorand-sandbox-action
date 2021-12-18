@@ -1,13 +1,13 @@
 on: [push]
 
 env:
-  CONFIG: .github/workflows/sandbox/config.custom
-  GENESIS: .github/workflows/sandbox/genesis/genesis.json
+  CONFIG: .github/workflows/sandbox/config.customrelease
+  GENESIS: .github/workflows/sandbox/genesis/release/genesis.json
 
 jobs:
   algorand-sandbox-job:
     runs-on: ubuntu-latest
-    name: Test sandbox
+    name: Test custom config
     steps:
       - name: Checkout
         uses: actions/checkout@v2       
