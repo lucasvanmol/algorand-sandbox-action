@@ -1,20 +1,28 @@
 on: [push]
 
+env:
+  CONFIG: .github/workflows/sandbox/config.custom
+  GENESIS: .github/workflows/sandbox/genesis/genesis.json
+
 jobs:
   algorand-sandbox-job:
     runs-on: ubuntu-latest
     name: Test sandbox
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2       
       - name: Check cache for Docker layers
         uses: satackey/action-docker-layer-caching@v0.0.11
         # Ignore the failure of a step and avoid terminating the job.
         continue-on-error: true
+        with:
+          key: docker-layer-caching-${{ github.workflow }}-${{ hashFiles(env.CONFIG, env.GENESIS) }}-{hash}
+          restore-keys: docker-layer-caching-${{ github.workflow }}-${{ hashFiles(env.CONFIG, env.GENESIS) }}-
       - name: Setup sandbox
         id: sandbox
         uses: ./ # Uses an action in the root directory
+        with:
+          config: ${{ env.CONFIG }}
       - name: Test
         run: |
-          echo ${{ steps.sandbox.outputs.mnemonic }}
-          curl --fail --show-error localhost:4001/health -H "X-Algo-API-Token: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          curl --fail --show-error localhost:4001/v2/accounts/3D6W7XQSU4HWILPWKGSQAPGJ7PLIADI7FOFQQ4DOIXDH6F7VIEVDKUPNVY -H "X-Algo-API-Token: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"

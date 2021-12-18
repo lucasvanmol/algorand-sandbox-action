@@ -2,12 +2,9 @@ name: 'Algorand Sandbox'
 description: 'Setup an Algorand sandbox network'
 inputs:
   config:
-    description: 'Sandbox config'
+    description: 'Sandbox config. Is either one of release/beta/dev/nightly, or the contents of a custom config file'
     required: false
     default: 'release'
-outputs:
-  mnemonic:
-    description: 'Mnemonic of an account that has some algos in it'
 runs:
   using: 'docker'
   image: 'Dockerfile'
