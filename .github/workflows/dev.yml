@@ -1,0 +1,25 @@
+on: [push]
+
+env:
+  CONFIG: dev
+
+
+jobs:
+  algorand-sandbox-job:
+    runs-on: ubuntu-latest
+    name: Test sandbox
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2       
+      - name: Check cache for Docker layers
+        uses: satackey/action-docker-layer-caching@v0.0.11
+        # Ignore the failure of a step and avoid terminating the job.
+        continue-on-error: true
+      - name: Setup sandbox
+        id: sandbox
+        uses: ./ # Uses an action in the root directory
+        with:
+          config: dev
+      - name: Test
+        run: |
+          curl --fail --show-error localhost:4001/v2/accounts/S5THZ2PD5POQGXAEAGUBPUM3X5NLJWBBBCVXK7WLSH6DMEEW6UJB45TBNE -H "X-Algo-API-Token: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
